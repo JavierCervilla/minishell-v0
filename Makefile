@@ -6,7 +6,7 @@
 #    By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/10 01:32:21 by jcervill          #+#    #+#              #
-#    Updated: 2021/01/19 15:39:15 by jcervill         ###   ########.fr        #
+#    Updated: 2021/01/20 18:25:12 by jcervill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,11 +64,9 @@ crun: compile
 
 clean:
 	@make -C $(PRINTF_DIR) clean
-	@make -C $(MLX_DIR) clean
 	@echo "Cleaning $(NAME)..."
 
 fclean: clean
-	@make -C $(MLX_DIR) clean
 	@make -C $(PRINTF_DIR) fclean
 	@rm -f $(READ_DIR)*.o
 	@rm -f $(SHELL_DIR)*.o

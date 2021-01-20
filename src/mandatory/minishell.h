@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 01:34:16 by jcervill          #+#    #+#             */
-/*   Updated: 2021/01/19 15:42:01 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/01/20 18:16:30 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@
 /*
  ** CONSTANTES
  */
-
+#define PATH_MAX 50
 /*
 ** errors
 */
@@ -70,5 +70,6 @@ void ft_free(void ***ptr);
 /*
 ** MINISHELL LOGIC
 */
+void ft_prompt();
 
 #endif
