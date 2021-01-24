@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 01:34:16 by jcervill          #+#    #+#             */
-/*   Updated: 2021/01/24 13:31:01 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/01/24 17:48:04 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include "../../includes/printf/ft_printf.h"
+#include <signal.h>
 #ifdef __linux__
 #define KEY_ESC 65307
 #define KEY_C 99
@@ -54,12 +55,14 @@
 /*
 **  STRUCTS
 */
+static volatile int keepRunning = 1;
 
 typedef struct	s_hell
 {
 	char        *pwd;   // Working directory -> ft_prompt
     int         exit;   // Flag activated by signal to exit ctrl-c ctrl-x ctrl-d
     int         isRead; // Line is read, detected by '\n'
+    char        *line;  // Line buffer.
     
     
 }				t_shell;
