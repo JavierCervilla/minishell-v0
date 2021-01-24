@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 01:34:16 by jcervill          #+#    #+#             */
-/*   Updated: 2021/01/20 18:16:30 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/01/24 13:31:01 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,24 @@
 #define KEY_RIGHT 124
 #define KEY_DOWN 125
 #endif
+
+/*
+**  STRUCTS
+*/
+
+typedef struct	s_hell
+{
+	char        *pwd;   // Working directory -> ft_prompt
+    int         exit;   // Flag activated by signal to exit ctrl-c ctrl-x ctrl-d
+    int         isRead; // Line is read, detected by '\n'
+    
+    
+}				t_shell;
+
 /*
  ** CONSTANTES
  */
-#define PATH_MAX 50
+
 /*
 ** errors
 */
@@ -70,6 +84,6 @@ void ft_free(void ***ptr);
 /*
 ** MINISHELL LOGIC
 */
-void ft_prompt();
+void ft_prompt(t_shell *ms);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/10 01:32:21 by jcervill          #+#    #+#              #
-#    Updated: 2021/01/20 18:25:12 by jcervill         ###   ########.fr        #
+#    Updated: 2021/01/24 12:57:27 by jcervill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ debug:
 	@echo "Debug Done."
 
 compile:
+	@make -C $(PRINTF_DIR)
 	$(CC) $(SRC_DIR)*.c $(READ_DIR)ft_*.c $(SHELL_DIR)ft_*.c -lftprintf -L $(PRINTF_DIR)    -o  $(NAME)
 
 crun: compile
