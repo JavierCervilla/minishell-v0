@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 01:34:16 by jcervill          #+#    #+#             */
-/*   Updated: 2021/01/24 17:48:04 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/02/16 12:28:22 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 #define KEY_C 8
 #define KEY_W 13
 #define KEY_A 0
-#define KEY_S 1
+#define KEY_S 1„,,,.,,
 #define KEY_D 2
 #define KEY_P 35
 #define KEY_LEFT 123
@@ -53,8 +53,16 @@
 #endif
 
 /*
+ ** CONSTANTES
+*/
+
+
+
+
+/*
 **  STRUCTS
 */
+
 static volatile int keepRunning = 1;
 
 typedef struct	s_hell
@@ -63,26 +71,25 @@ typedef struct	s_hell
     int         exit;   // Flag activated by signal to exit ctrl-c ctrl-x ctrl-d
     int         isRead; // Line is read, detected by '\n'
     char        *line;  // Line buffer.
-    
+    char        **commandList;  // Arr de comandos tras split por ';'
+    int         commandsNum; // numero de comandoos
+    pid_t         *processList;  // Lista de procesos, cada proceso tiene la lista de los padres
     
 }				t_shell;
 
-/*
- ** CONSTANTES
- */
+
 
 /*
 ** errors
 */
 
-void ft_handle_error_aux(char *str, void *aux);
-void ft_handle_error_ptr(char *str, void ***aux);
 void ft_handle_error(char *str);
-void ft_free(void ***ptr);
 
 /*
 ** Read Utils
 */
+
+
 
 /*
 ** MINISHELL LOGIC
