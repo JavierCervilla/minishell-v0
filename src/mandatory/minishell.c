@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 02:56:54 by dgomez            #+#    #+#             */
-/*   Updated: 2021/02/16 13:50:59 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/02/17 11:37:57 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void exitHandler(int signalInt) {
 	exit(0);
 }
 
-int main(int argc, char *argv[], char *envp[])
+ int main(int argc, char *argv[], char *envp[])
 {
 	t_shell ms;
 	int		count;
@@ -87,6 +87,14 @@ int main(int argc, char *argv[], char *envp[])
 					/** PROCESO HIJO*/
 					printf("__________PROCESO__HIJO_____________\n");
 					printf("Soy el proceso hijo, Numero de comando: %d\n comando: %s\n",count,  ms.commandList[count]);
+					/** 
+					 * Aqui el proceso hijo ya cuenta con un comando, nose si sería necesario
+					 * tener clara la salida del redireccionamiento, o tratarlo despues
+					 * en el padre y que la salida de la ejecucion siempre sea igual
+					 * pero active flags para ser tratado por el padre.
+					*/
+
+
 					if (execve(arg_ls[0],arg_ls,envp)  == -1)
 						printf("error");
 				}
@@ -104,3 +112,4 @@ int main(int argc, char *argv[], char *envp[])
 	
 	return (0);
 }
+

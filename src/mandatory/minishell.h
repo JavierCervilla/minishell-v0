@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 01:34:16 by jcervill          #+#    #+#             */
-/*   Updated: 2021/02/16 12:28:22 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/02/17 12:17:23 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include <sys/shm.h>
 #include "../../includes/printf/ft_printf.h"
 #include <signal.h>
+#include <dirent.h>
 #ifdef __linux__
 #define KEY_ESC 65307
 #define KEY_C 99
@@ -43,7 +44,7 @@
 #define KEY_C 8
 #define KEY_W 13
 #define KEY_A 0
-#define KEY_S 1„,,,.,,
+#define KEY_S 1
 #define KEY_D 2
 #define KEY_P 35
 #define KEY_LEFT 123
@@ -67,16 +68,15 @@ static volatile int keepRunning = 1;
 
 typedef struct	s_hell
 {
-	char        *pwd;   // Working directory -> ft_prompt
-    int         exit;   // Flag activated by signal to exit ctrl-c ctrl-x ctrl-d
-    int         isRead; // Line is read, detected by '\n'
-    char        *line;  // Line buffer.
+	char        *pwd;           // Working directory -> ft_prompt
+    int         exit;           // Flag activated by signal to exit ctrl-c ctrl-x ctrl-d
+    int         isRead;         // Line is read, detected by '\n'
+    char        *line;          // Line buffer.
     char        **commandList;  // Arr de comandos tras split por ';'
-    int         commandsNum; // numero de comandoos
-    pid_t         *processList;  // Lista de procesos, cada proceso tiene la lista de los padres
+    int         commandsNum;    // numero de comandoos
+    pid_t         *processList; // Lista de procesos, cada proceso tiene la lista de los padres
     
 }				t_shell;
-
 
 
 /*
@@ -90,6 +90,11 @@ void ft_handle_error(char *str);
 */
 
 
+/*
+*   System Utils
+*/
+char    *ft_getenv(const char *name, char *envp[]);
+char    *ft_get_program_path(char *programName, char *envp[]);
 
 /*
 ** MINISHELL LOGIC
