@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/04 01:34:16 by jcervill          #+#    #+#             */
-/*   Updated: 2021/02/17 12:17:23 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/02/18 10:48:13 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 /*
  ** CONSTANTES
 */
-
+#define DEBUG 0
 
 
 
@@ -66,6 +66,20 @@
 
 static volatile int keepRunning = 1;
 
+
+typedef struct s_command
+{
+    char        *program_path;
+    
+}              t_command;
+
+
+typedef struct  s_process
+{
+    pid_t       processPid;   // Lista de procesos, cada proceso tiene la lista de los padres
+    t_command   *cmdList;       // Lista de commands
+}               t_process;
+
 typedef struct	s_hell
 {
 	char        *pwd;           // Working directory -> ft_prompt
@@ -74,8 +88,7 @@ typedef struct	s_hell
     char        *line;          // Line buffer.
     char        **commandList;  // Arr de comandos tras split por ';'
     int         commandsNum;    // numero de comandoos
-    pid_t         *processList; // Lista de procesos, cada proceso tiene la lista de los padres
-    
+    t_process   *processList;   //  Lista de procesos
 }				t_shell;
 
 

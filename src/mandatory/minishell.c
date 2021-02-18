@@ -6,7 +6,7 @@
 /*   By: jcervill <jcervill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/10 02:56:54 by dgomez            #+#    #+#             */
-/*   Updated: 2021/02/17 11:37:57 by jcervill         ###   ########.fr       */
+/*   Updated: 2021/02/18 10:51:14 by jcervill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void exitHandler(int signalInt) {
 				count++;
 			printf("count: %d\n", count);
 			ms.commandsNum = count;
-			if (!(ms.processList = (int *)malloc(sizeof(pid_t) * count)))
+			if (!(ms.processList = (t_process *)malloc(sizeof(t_process) * count)))
 			{
 				/** Limpiar memoria */
 				exit(0);
@@ -73,20 +73,25 @@ void exitHandler(int signalInt) {
 			while (ms.commandList[count])
 			{
 				/** COMMAND HANDLER */
-				ms.processList[count] = fork();
-				if (ms.processList[count] == -1)
+				ms.processList[count].processPid = fork();
+				if (ms.processList[count].processPid == -1)
 				{
 					printf("Error al crear el proceso hijo, Numero de comando: %d\n comando: %s\n", count, ms.commandList[count]);
 				}
 				/** PROCESO PADRE */
-				if (ms.processList[count]) {
+				if (ms.processList[count].processPid) {
 					printf("__________PROCESO__PADRE__________\n");
-					printf("Soy el proceso padre, PID:%d\n comando: %s\n",  ms.processList[count], ms.commandList[count]);
+					printf("PID:%d\n	comando: %s\n",  ms.processList[count].processPid, ms.commandList[count]);
 					waitpid(-1, &status, 0);
+					printf("STAT:%d\n", status);
 				} else {
 					/** PROCESO HIJO*/
-					printf("__________PROCESO__HIJO_____________\n");
-					printf("Soy el proceso hijo, Numero de comando: %d\n comando: %s\n",count,  ms.commandList[count]);
+					printf("	________PROCESO__HIJO_____________\n");
+					printf("	Nº: %d\n	CMD: %s\n",count, ms.commandList[count]);
+
+					printf("LLEGO\n");
+					ms.processList[count].cmdList[0].program_path = ft_get_program_path(ms.commandList[count],envp);
+					printf("PATH_DIR: %s\n",ms.processList[count].cmdList[0].program_path);
 					/** 
 					 * Aqui el proceso hijo ya cuenta con un comando, nose si sería necesario
 					 * tener clara la salida del redireccionamiento, o tratarlo despues
@@ -94,15 +99,14 @@ void exitHandler(int signalInt) {
 					 * pero active flags para ser tratado por el padre.
 					*/
 
-
 					if (execve(arg_ls[0],arg_ls,envp)  == -1)
-						printf("error");
+						printf("	error");
+					
 				}
 				count++;
 			}
 			
 			/** OUTPUT */
-			printf("output\n");
 		}
 		/** Liberar memoria */
 		ms.isRead = 0;
