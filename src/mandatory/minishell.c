@@ -62,7 +62,7 @@ void exitHandler(int signalInt) {
 			count = 0;
 			while (ms.commandList[count])
 				count++;
-			printf("count: %d\n", count);
+			DEBUG == 0?:printf("count: %d\n", count);
 			ms.commandsNum = count;
 			if (!(ms.processList = (t_process *)malloc(sizeof(t_process) * count)))
 			{
@@ -76,31 +76,42 @@ void exitHandler(int signalInt) {
 				ms.processList[count].processPid = fork();
 				if (ms.processList[count].processPid == -1)
 				{
-					printf("Error al crear el proceso hijo, Numero de comando: %d\n comando: %s\n", count, ms.commandList[count]);
+					DEBUG == 0?:printf("Error al crear el proceso hijo, Numero de comando: %d\n comando: %s\n", count, ms.commandList[count]);
 				}
-				/** PROCESO PADRE */
+				/** PROCESO PADRE: */
 				if (ms.processList[count].processPid) {
-					printf("__________PROCESO__PADRE__________\n");
-					printf("PID:%d\n	comando: %s\n",  ms.processList[count].processPid, ms.commandList[count]);
+					DEBUG == 0?:printf("__________PROCESO__PADRE__________\n");
+					DEBUG == 0?:printf("PID:%d\n	comando: %s\n",  ms.processList[count].processPid, ms.commandList[count]);
 					waitpid(-1, &status, 0);
-					printf("STAT:%d\n", status);
+					DEBUG == 0?:printf("STAT:%d\n", status);
 				} else {
-					/** PROCESO HIJO*/
-					printf("	________PROCESO__HIJO_____________\n");
-					printf("	Nº: %d\n	CMD: %s\n",count, ms.commandList[count]);
-
-					printf("LLEGO\n");
-					ms.processList[count].cmdList[0].program_path = ft_get_program_path(ms.commandList[count],envp);
-					printf("PATH_DIR: %s\n",ms.processList[count].cmdList[0].program_path);
 					/** 
-					 * Aqui el proceso hijo ya cuenta con un comando, nose si sería necesario
-					 * tener clara la salida del redireccionamiento, o tratarlo despues
-					 * en el padre y que la salida de la ejecucion siempre sea igual
-					 * pero active flags para ser tratado por el padre.
+					 * PROCESO HIJO:
+					 *  Aqui el proceso hijo ya cuenta con un comando, nose si sería necesario
+					 *  tener clara la salida del redireccionamiento, o tratarlo despues
+					 *  en el padre y que la salida de la ejecucion siempre sea igual
+					 *  pero active flags para ser tratado por el padre.
 					*/
+					DEBUG == 0?:printf("	________PROCESO__HIJO_____________\n");
+					DEBUG == 0?:printf("	Nº: %d\n	CMD: %s\n",count, ms.commandList[count]);
 
-					if (execve(arg_ls[0],arg_ls,envp)  == -1)
-						printf("	error");
+ 					ms.processList[count].cmdList[0].program_path = ft_get_program_path(ms.commandList[count],envp);
+					DEBUG == 0?:printf("PATH_DIR: %s\n",ms.processList[count].cmdList[0].program_path);
+					if (ft_strlen(ms.processList[count].cmdList[0].program_path)!=  0)
+					{
+						if (!(ms.processList[count].cmdList[0].args = (char **)malloc(sizeof(char*) * 1 + 1 )))
+						{
+							/** Liberar memoria*/
+							exit(0);
+						}
+						ms.processList[count].cmdList[0].args[1] = 0;
+						char * aux;
+						aux = ft_strjoin(ms.processList[count].cmdList[0].program_path, "/");
+						ms.processList[count].cmdList[0].args[0] = ft_strjoin(aux,ms.commandList[count]);
+					}
+					DEBUG == 0?:printf("PROGRAM:%s\n", ms.processList[count].cmdList[0].args[0]);
+ 					if (execve(ms.processList[count].cmdList[0].args[0],ms.processList[count].cmdList[0].args,envp)  == -1)
+						printf("	error"); 
 					
 				}
 				count++;

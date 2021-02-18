@@ -56,7 +56,7 @@
 /*
  ** CONSTANTES
 */
-#define DEBUG 0
+#define DEBUG 1
 
 
 
@@ -70,14 +70,14 @@ static volatile int keepRunning = 1;
 typedef struct s_command
 {
     char        *program_path;
-    
+    char        **args;
 }              t_command;
 
 
 typedef struct  s_process
 {
-    pid_t       processPid;   // Lista de procesos, cada proceso tiene la lista de los padres
-    t_command   *cmdList;       // Lista de commands
+    pid_t       processPid;     // Lista de procesos, cada proceso tiene la lista de los padres
+    t_command   cmdList[1];       // Lista de commands
 }               t_process;
 
 typedef struct	s_hell
