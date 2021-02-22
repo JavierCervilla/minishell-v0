@@ -77,7 +77,7 @@ typedef struct s_command
 typedef struct  s_process
 {
     pid_t       processPid;     // Lista de procesos, cada proceso tiene la lista de los padres
-    t_command   cmdList[1];       // Lista de commands
+    t_command   cmdList[1];     // Lista de commands
 }               t_process;
 
 typedef struct	s_hell
@@ -102,6 +102,7 @@ void ft_handle_error(char *str);
 ** Read Utils
 */
 
+char    ****ft_handle_command(char *command);
 
 /*
 *   System Utils
