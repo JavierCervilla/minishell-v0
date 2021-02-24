@@ -1,31 +1,24 @@
 #include "../minishell.h"
 
 
-char ****ft_handle_command(char *command)
-{
-    int     semicolon;
-    int     pipes;
-    int     spaces;
-    char    ****result;
-    char    **split_semicolon;
-    char    **split_pipes;
-    char    **split_spaces;
-    semicolon = -1;
-    pipes = -1;
-    spaces = -1;
+int    ft_check_if_quotes(char *command) {
+    int i;
 
-    split_semicolon = ft_split(command, ';');
-    while (split_semicolon[++semicolon]) {
-        DEBUG == 0?:printf("SC[%d]: %s\n",semicolon,split_semicolon[semicolon]);
-    }
-    return(result);
-
+    i = -1;
+    while (command[++i])
+        if (command[i] == '"')
+            return TRUE;
+    return FALSE;
 }
 
+
+
 int main () {
-    char *command = "ls -la|cd ..;clear;ls -la";
-
-
-    
+    char *command = "ls -la|echo \"hola mundo;\";clear;ls -la";
+    if (ft_check_if_quotes(command)){
+        printf("THERE IS QUOTES\n");
+    } else {
+        printf("THERE IS NOT QUOTES\n");
+    }
     return (0);
 }
