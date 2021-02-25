@@ -74,6 +74,8 @@ char    *ft_get_program_path(char *programName, char *envp[]) {
             DEBUG == 0?:printf("RESULT_PATH: %s\n", result_path);
         }
     }
+    if (!result_path)
+        result_path=ft_strdup(NULL);
     return result_path;
 }
 /* int main(int argc, char *argv[],char **envp) {

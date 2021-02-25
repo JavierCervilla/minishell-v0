@@ -36,12 +36,18 @@ void exitHandler(int signalInt) {
  int main(int argc, char *argv[], char *envp[])
 {
 	t_shell ms;
-	int		count;
-	int status;
+	int		semicolon;
+	int 	pipes;
+	int		status;
+	int		cNum;
+	int		i = -1;
 
-	char *arg_ls[]={"/bin/ls","-a", NULL};
+	char	*arg_ls[]={"/bin/ls","-a", NULL};
+	char	**auxArgs;
+	char	*auxPath;
 
 
+	
 	ft_bzero(&ms, sizeof(ms));
 	/** SIGNAL CHECK */
 	signal(SIGINT, exitHandler);
@@ -58,67 +64,63 @@ void exitHandler(int signalInt) {
 				/** Limpiar memoria */
 				exit(0);
 			}
-			ms.commandList = ft_split(ms.line, ';');
-			count = 0;
-			while (ms.commandList[count])
-				count++;
-			DEBUG == 0?:printf("count: %d\n", count);
-			ms.commandsNum = count;
-			if (!(ms.processList = (t_process *)malloc(sizeof(t_process) * count)))
+			if (ft_check_if_quotes(ms.line)){
+        		ms.commandList = ft_command_with_quotes(ms.line);
+				printf("LLEGO: %s\n", ms.commandList[0][0]);
+				printf("LLEGO\n");
+    		} else {
+        		ms.commandList = ft_command_without_quotes(ms.line);
+				printf("LLEGO: %s\n", ms.commandList[0][0]);
+       		}
+    	}
+		semicolon = 0;
+		while (ms.commandList[semicolon])
+			semicolon++;
+		DEBUG == 0?:printf("semicolon: %d\n", semicolon);
+		ms.commandsNum = semicolon;
+		semicolon = -1;
+		while (ms.commandList[++semicolon])
+		{
+			pipes = -1;
+			while (ms.commandList[semicolon][++pipes])
 			{
-				/** Limpiar memoria */
-				exit(0);
+				//DEBUG == 0?:printf("PIPES[%d][%d]:%s\n",semicolon, pipes,ms.commandList[semicolon][pipes]);
+				/** CMD HANDLER */
+				ms.commandsNum++;
 			}
-			count = 0;
-			while (ms.commandList[count])
-			{
-				/** COMMAND HANDLER */
-				ms.processList[count].processPid = fork();
-				if (ms.processList[count].processPid == -1)
-				{
-					DEBUG == 0?:printf("Error al crear el proceso hijo, Numero de comando: %d\n comando: %s\n", count, ms.commandList[count]);
-				}
-				/** PROCESO PADRE: */
-				if (ms.processList[count].processPid) {
-					DEBUG == 0?:printf("__________PROCESO__PADRE__________\n");
-					DEBUG == 0?:printf("PID:%d\n	comando: %s\n",  ms.processList[count].processPid, ms.commandList[count]);
-					waitpid(-1, &status, 0);
-					DEBUG == 0?:printf("STAT:%d\n", status);
-				} else {
-					/** 
-					 * PROCESO HIJO:
-					 *  Aqui el proceso hijo ya cuenta con un comando, nose si sería necesario
-					 *  tener clara la salida del redireccionamiento, o tratarlo despues
-					 *  en el padre y que la salida de la ejecucion siempre sea igual
-					 *  pero active flags para ser tratado por el padre.
-					*/
-					DEBUG == 0?:printf("	________PROCESO__HIJO_____________\n");
-					DEBUG == 0?:printf("	Nº: %d\n	CMD: %s\n",count, ms.commandList[count]);
-
- 					ms.processList[count].cmdList[0].program_path = ft_get_program_path(ms.commandList[count],envp);
-					DEBUG == 0?:printf("PATH_DIR: %s\n",ms.processList[count].cmdList[0].program_path);
-					if (ft_strlen(ms.processList[count].cmdList[0].program_path)!=  0)
-					{
-						if (!(ms.processList[count].cmdList[0].args = (char **)malloc(sizeof(char*) * 1 + 1 )))
-						{
-							/** Liberar memoria*/
-							exit(0);
-						}
-						ms.processList[count].cmdList[0].args[1] = 0;
-						char * aux;
-						aux = ft_strjoin(ms.processList[count].cmdList[0].program_path, "/");
-						ms.processList[count].cmdList[0].args[0] = ft_strjoin(aux,ms.commandList[count]);
-					}
-					DEBUG == 0?:printf("PROGRAM:%s\n", ms.processList[count].cmdList[0].args[0]);
- 					if (execve(ms.processList[count].cmdList[0].args[0],ms.processList[count].cmdList[0].args,envp)  == -1)
-						printf("	error"); 
-					
-				}
-				count++;
-			}
-			
-			/** OUTPUT */
 		}
+		if (!(ms.processList = (t_process *)malloc(sizeof(t_process) * ms.commandsNum + 1)))
+		{
+			/** Limpiar memoria */
+			exit(0);
+		}
+		cNum = -1;
+		semicolon = -1;
+		while (ms.commandList[++semicolon])
+		{
+			pipes = -1;
+			while (ms.commandList[semicolon][++pipes])
+			{
+				DEBUG == 0?:printf("PIPES[%d][%d]:%s\n",semicolon, pipes,ms.commandList[semicolon][pipes]);
+
+				/** CMD HANDLER */
+				auxArgs = ft_split(ms.commandList[semicolon][pipes],  ' ');
+				ms.processList[++cNum].cmd.args = auxArgs;
+				/* ms.processList[cNum].cmd.program_path = ft_strdup(ft_get_program_path(ms.processList[cNum].cmd.args[0],envp));
+				ms.processList[cNum].cmd.exec_route = ft_strjoin(ms.processList[cNum].cmd.program_path, ms.processList[cNum].cmd.args[0]);
+				free(ms.processList[cNum].cmd.args[0]);
+				ms.processList[cNum].cmd.args[0] = ms.processList[cNum].cmd.exec_route;
+				i = -1;
+				while (ms.processList[cNum].cmd.args[++i])
+					DEBUG == 0?:printf("ARG[%d]:%s\n",i, ms.processList[cNum].cmd.args[i]);
+				if (execve(ms.processList[cNum].cmd.args[0],ms.processList[cNum].cmd.args,envp)  == -1)
+						printf("	error"); */
+			}
+		}
+			
+			
+		/** OUTPUT */
+		
 		/** Liberar memoria */
 		ms.isRead = 0;
 		free(ms.pwd);

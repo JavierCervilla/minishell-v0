@@ -58,7 +58,7 @@
 */
 #define TRUE 1
 #define FALSE 0
-#define DEBUG FALSE
+#define DEBUG TRUE
 
 
 
@@ -72,6 +72,7 @@ static volatile int keepRunning = 1;
 typedef struct s_command
 {
     char        *program_path;
+    char        *exec_route;
     char        **args;
 }              t_command;
 
@@ -79,7 +80,7 @@ typedef struct s_command
 typedef struct  s_process
 {
     pid_t       processPid;     // Lista de procesos, cada proceso tiene la lista de los padres
-    t_command   cmdList[1];     // Lista de commands
+    t_command   cmd;     // Lista de commands
 }               t_process;
 
 typedef struct	s_hell
@@ -88,8 +89,8 @@ typedef struct	s_hell
     int         exit;           // Flag activated by signal to exit ctrl-c ctrl-x ctrl-d
     int         isRead;         // Line is read, detected by '\n'
     char        *line;          // Line buffer.
-    char        **commandList;  // Arr de comandos tras split por ';'
-    int         commandsNum;    // numero de comandoos
+    char        ***commandList;  // Arr de comandos tras split por ';' y '|'
+    int         commandsNum;    // numero de comandos
     t_process   *processList;   //  Lista de procesos
 }				t_shell;
 
@@ -104,7 +105,10 @@ void ft_handle_error(char *str);
 ** Read Utils
 */
 
-char    ****ft_handle_command(char *command);
+int     ft_check_if_quotes(char *command);
+char    ***ft_split_clean_command(char *cmd);
+char    ***ft_command_without_quotes(char *cmd);
+char    ***ft_command_with_quotes(char *cmd);
 
 /*
 *   System Utils
