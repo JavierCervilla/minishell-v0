@@ -54,7 +54,7 @@ char    *ft_get_program_path(char *programName, char *envp[]) {
     char    **path;
     char    **path_dirs;
     int     i;
-    char    *result_path;
+    char    *result_path = NULL;
     
     DEBUG == 0?:printf("___GET_PROGRAM_PATH___\n");
     DEBUG == 0?:printf("PROGRAM: %s\n",  programName);
@@ -64,8 +64,8 @@ char    *ft_get_program_path(char *programName, char *envp[]) {
     DEBUG == 0?: printf("PATH:\n%s\n", path[1]);
     path_dirs = ft_split(path[1], ':');
     i = -1;
-    
-    while (path_dirs[++i] && !result_path)
+    DEBUG == 0?:printf("dir: %s\nfound = %d\n", path_dirs[0], !result_path);
+    while (path_dirs[++i] && !result_path )
     {
         DEBUG == 0?:printf("dir: %s\n", path_dirs[i]);
         if (do_into_dir(path_dirs[i], programName) > 0)

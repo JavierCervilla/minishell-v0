@@ -56,15 +56,16 @@
 /*
  ** CONSTANTES
 */
+
 #define TRUE 1
 #define FALSE 0
-#define DEBUG TRUE
-
+#define DEBUG FALSE
 
 
 /*
 **  STRUCTS
 */
+
 
 static volatile int keepRunning = 1;
 
@@ -82,6 +83,7 @@ typedef struct  s_process
     pid_t       processPid;     // Lista de procesos, cada proceso tiene la lista de los padres
     t_command   cmd;     // Lista de commands
 }               t_process;
+
 
 typedef struct	s_hell
 {
@@ -110,15 +112,21 @@ char    ***ft_split_clean_command(char *cmd);
 char    ***ft_command_without_quotes(char *cmd);
 char    ***ft_command_with_quotes(char *cmd);
 
+
 /*
 *   System Utils
 */
+
+
 char    *ft_getenv(const char *name, char *envp[]);
 char    *ft_get_program_path(char *programName, char *envp[]);
+
 
 /*
 ** MINISHELL LOGIC
 */
+
+
 void ft_prompt(t_shell *ms);
 
 #endif
