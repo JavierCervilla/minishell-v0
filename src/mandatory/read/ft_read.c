@@ -11,14 +11,7 @@ int    ft_check_if_quotes(char *command) {
     return FALSE;
 }
 
-char    ***ft_command_with_quotes(char  *cmd) {
-    DEBUG == 0?:printf("THERE IS QUOTES\n");
-    /* 
-    **  #TODO:Here we have to parse with quotes
-    **
-    */
-return (0);
-}
+
 
 char ***ft_split_clean_command(char *cmd) {
     char    **split_semicolon;
@@ -29,7 +22,7 @@ char ***ft_split_clean_command(char *cmd) {
     i = -1;
     split_semicolon = ft_split(cmd, ';');
     while (split_semicolon[++i]){
-        DEBUG == 1?:printf("semicolon(;)[%d]: %s\n", i, split_semicolon[i]);
+        DEBUG == 0?:printf("semicolon(;)[%d]: %s\n", i, split_semicolon[i]);
     }
     if (!(split_pipes = (char ***)malloc(sizeof(char **) * i + 1)))
     {
@@ -54,8 +47,14 @@ char ***ft_split_clean_command(char *cmd) {
 
 char    ***ft_command_without_quotes(char  *cmd) {
     DEBUG == 0?:printf("THERE IS NOT QUOTES\n");
-    /*
-    **  At this point we have to handle the command and split it.
+    return (ft_split_clean_command(cmd));
+}
+char    ***ft_command_with_quotes(char  *cmd) {
+
+    DEBUG == 0?:printf("THERE IS QUOTES\n");
+    /* 
+    **  #TODO:Here we have to parse with quotes
+    **
     */
     return (ft_split_clean_command(cmd));
 }
@@ -63,7 +62,7 @@ char    ***ft_command_without_quotes(char  *cmd) {
 
 
 /* int main () {
-    char    *command = "ls -la|echo hola mundo;clear;ls -la";
+    char    *command = "echo ANTES: ; ls -la ; touch test; echo DESPUES: ;ls -la;rm test; echo DELETE: | ls -la";
     char    ***cmd_splited;
     int i,j;
 
