@@ -57,38 +57,17 @@ void exitHandler(int signalInt) {
 		ft_prompt(&ms);
 		/** READ */	
 		ms.isRead = get_next_line(0, &ms.line);
+		/** START PARSING LINE*/
 		if (ms.isRead == 1 && ft_strlen(ms.line) > 0)
 		{
+			/** EXIT WORD TO EXIT*/
 			if (ft_strcmp(ms.line, "exit"))
 			{
-				/** Limpiar memoria */
 				exit(0);
 			}
 
-			if (ft_check_if_quotes(ms.line)){
-        		ms.commandList = ft_command_with_quotes(ms.line);
-				DEBUG == 0?:printf("CMD_W_Q: %s\n", ms.commandList[0][0]);
-
-    		} else {
-        		ms.commandList = ft_command_without_quotes(ms.line);
-				DEBUG == 0?:printf("CMD_WO_Q: %s\n", ms.commandList[0][0]);
-       		}
-			semicolon = -1;
-			while (ms.commandList[++semicolon])
-			{
-				pipes = -1;
-				while (ms.commandList[semicolon][++pipes])
-				{
-					//DEBUG == 0?:printf("PIPES[%d][%d]:%s\n",semicolon, pipes,ms.commandList[semicolon][pipes]);
-					/** CMD HANDLER */
-					ms.commandsNum++;
-				}
-			}
-			if (!(ms.processList = (t_process *)malloc(sizeof(t_process) * ms.commandsNum + 1)))
-			{
-				/** Limpiar memoria */
-				exit(0);
-			}
+			ft_parse_command(&ms);
+			ft_count_alloc_cmds(&ms);
 			cNum = -1;
 			semicolon = -1;
 			while (ms.commandList[++semicolon])
@@ -109,7 +88,7 @@ void exitHandler(int signalInt) {
 						DEBUG == 0?:printf("PIPES[%d][%d]:%s\n\n",semicolon, pipes,ms.commandList[semicolon][pipes]);
 						DEBUG == 0?:printf("PID:%d\n	comando: %s\n\n",  ms.processList[cNum].processPid, ms.commandList[semicolon][pipes]);
 						waitpid(-1, &status, 0);
-						DEBUG == 0?:printf("STAT:%d\n", status);
+						DEBUG == 0?:printf("STAT:%d\n", status); 
 					} else {
 						/** 
 						* PROCESO HIJO:
@@ -121,9 +100,9 @@ void exitHandler(int signalInt) {
 
 						DEBUG == 0?:printf("	________PROCESO__HIJO_____________\n");
 						DEBUG == 0?:printf("	Nº: %d\n	CMD: %s\n",cNum, ms.commandList[semicolon][pipes]);
-
+ */
 						ms.processList[cNum].cmd.program_path = ft_get_program_path(auxArgs[0],envp);
-						DEBUG == 0?:printf("P[%d]:%s\n",cNum,ms.processList[cNum].cmd.program_path);
+						DEBUG == 0?:printf("P[%d]:%s\n",cNum,ms.processList[cNum].cmd.program_path); */
 						ms.processList[cNum].cmd.exec_route = ft_strjoin(ms.processList[cNum].cmd.program_path, "/");
 						auxPath = ft_strjoin(ms.processList[cNum].cmd.exec_route,ms.processList[cNum].cmd.args[0]);
 						free(ms.processList[cNum].cmd.exec_route);

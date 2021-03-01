@@ -60,6 +60,21 @@ char    ***ft_command_with_quotes(char  *cmd) {
 }
 
 
+void ft_parse_command(t_shell *ms) {
+    if (ft_check_if_quotes(ms->line))
+    {
+        /** COMANDO CON COMAS*/
+        ms->commandList = ft_command_with_quotes(ms->line);
+        DEBUG == 0?:printf("CMD_W_Q: %s\n", ms->commandList[0][0]);
+
+    }
+    else
+    {
+        /** COMANDO SIN COMAS*/
+        ms->commandList = ft_command_without_quotes(ms->line);
+        DEBUG == 0?:printf("CMD_WO_Q: %s\n", ms->commandList[0][0]);
+    }
+}
 
 /* int main () {
     char    *command = "echo ANTES: ; ls -la ; touch test; echo DESPUES: ;ls -la;rm test; echo DELETE: | ls -la";

@@ -107,6 +107,7 @@ void ft_handle_error(char *str);
 ** Read Utils
 */
 
+void    ft_parse_command(t_shell *ms);
 int     ft_check_if_quotes(char *command);
 char    ***ft_split_clean_command(char *cmd);
 char    ***ft_command_without_quotes(char *cmd);
@@ -125,6 +126,8 @@ char    *ft_get_program_path(char *programName, char *envp[]);
 /*
 ** MINISHELL LOGIC
 */
+int ft_count_alloc_cmds(t_shell *ms);
+
 
 
 void ft_prompt(t_shell *ms);
