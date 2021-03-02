@@ -94,6 +94,7 @@ typedef struct	s_hell
     char        ***commandList;  // Arr de comandos tras split por ';' y '|'
     int         commandsNum;    // numero de comandos
     t_process   *processList;   //  Lista de procesos
+    int         status;         // estado, Signal
 }				t_shell;
 
 
@@ -127,7 +128,7 @@ char    *ft_get_program_path(char *programName, char *envp[]);
 ** MINISHELL LOGIC
 */
 int ft_count_alloc_cmds(t_shell *ms);
-
+int ft_execute_loop(t_shell *ms, char *envp[]);
 
 
 void ft_prompt(t_shell *ms);
