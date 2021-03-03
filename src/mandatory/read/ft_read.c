@@ -76,13 +76,14 @@ void ft_parse_command(t_shell *ms) {
     }
 }
 
-/* int main () {
+int main () {
     char    *command = "echo ANTES: ; ls -la ; touch test; echo DESPUES: ;ls -la;rm test; echo DELETE: | ls -la";
     char    ***cmd_splited;
     int i,j;
 
     i = -1;
     j = -1;
+     DEBUG == 0?:printf("CMD:   %s\n", command);
     if (ft_check_if_quotes(command)){
         ft_command_with_quotes(command);
     } else {
@@ -95,4 +96,4 @@ void ft_parse_command(t_shell *ms) {
         }
     }
     return (0);
-} */
+}

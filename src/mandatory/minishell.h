@@ -59,7 +59,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define DEBUG FALSE
+#define DEBUG TRUE
 
 
 /*
@@ -129,7 +129,7 @@ char    *ft_get_program_path(char *programName, char *envp[]);
 */
 int ft_count_alloc_cmds(t_shell *ms);
 int ft_execute_loop(t_shell *ms, char *envp[]);
-
+int ft_parse_args(t_shell *ms, int cNum, char *envp[], char	**auxArgs);
 
 void ft_prompt(t_shell *ms);
 
